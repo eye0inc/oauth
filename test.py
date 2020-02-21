@@ -77,4 +77,4 @@ if __name__ == "__main__":
     os.environ['DEBUG'] = "1"
 
     app.secret_key = os.urandom(24)
-    app.run(debug=True, port=80, host="0.0.0.0")
+    app.run(debug=True, port=7890, host="localhost")
