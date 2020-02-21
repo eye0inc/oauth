@@ -1,8 +1,7 @@
 from requests_oauthlib import OAuth2Session
 from flask import Flask, request, redirect, session, url_for
 from flask.json import jsonify
-import os
-
+import os, time
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' #to test with http://localhost
 app = Flask(__name__)
 
@@ -33,6 +32,7 @@ def demo():
 
     # State is used to prevent CSRF, keep this for later.
     session['oauth_state'] = state
+    print ("DEMO", state)
     return redirect(authorization_url)
 
 
@@ -40,7 +40,13 @@ def demo():
 
 @app.route("/callback", methods=["GET"])
 def callback():
-    print ("CALLBACK")
+    time.sleep(1)
+    print ("CALLBACK", session['oauth_state'])
+    print ("REQ.URL", request.url)
+    i = request.url.find("?code=")+6
+    tok = request.url[i:]
+    print ("TOK:", tok)
+
     """ Step 3: Retrieving an access token.
 
     The user has been redirected back from the provider to your registered
@@ -51,7 +57,7 @@ def callback():
     github = OAuth2Session(client_id, state=session['oauth_state'])
     token = github.fetch_token(token_url, client_secret=client_secret,
                                # authorization_response=request.url)
-                                authorization_response = "http://localhost:8080/callback")
+                               authorization_response = "fougeddaboudit?code=%s" % tok)
 
     # At this point you can fetch protected resources but lets save
     # the token and show how this is done from a persisted token
@@ -75,4 +81,4 @@ if __name__ == "__main__":
     os.environ['DEBUG'] = "1"
 
     app.secret_key = os.urandom(24)
-    app.run(debug=True, port=8080)
+    app.run(debug=True, port=7890, host="0.0.0.0")
