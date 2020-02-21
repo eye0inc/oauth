@@ -22,33 +22,29 @@ scope = []
 
 @app.route("/")
 def demo():
-    """Step 1: User Authorization.
+    if 'code' not in request.args:
+        """Step 1: User Authorization:
+        Redirect the user/resource owner to the OAuth provider (i.e. Github)
+        using an URL with a few key OAuth parameters.
+        """
+        github = OAuth2Session(client_id, scope=scope)
+        authorization_url, state = github.authorization_url(authorization_base_url)
 
-    Redirect the user/resource owner to the OAuth provider (i.e. Github)
-    using an URL with a few key OAuth parameters.
-    """
-    github = OAuth2Session(client_id, scope=scope)
-    authorization_url, state = github.authorization_url(authorization_base_url)
-
-    # State is used to prevent CSRF, keep this for later.
-    session['oauth_state'] = state
-    print ("DEMO", state)
-    return redirect(authorization_url)
+        # State is used to prevent CSRF, keep this for later.
+        session['oauth_state'] = state
+        print ("DEMO", state, request.args)
+        return redirect(authorization_url)
 
 
-# Step 2: User authorization, this happens on the provider.
-
-@app.route("/callback", methods=["GET"])
-def callback():
+    # Step 2: User authorization, this happens on the provider.
     time.sleep(1)
-    print ("CALLBACK", session['oauth_state'])
+    print ("CALLBACK", session['oauth_state'], request.args)
     print ("REQ.URL", request.url)
     i = request.url.find("?code=")+6
     tok = request.url[i:]
     print ("TOK:", tok)
 
     """ Step 3: Retrieving an access token.
-
     The user has been redirected back from the provider to your registered
     callback URL. With this redirection comes an authorization code included
     in the redirect URL. We will use that to obtain an access token.
