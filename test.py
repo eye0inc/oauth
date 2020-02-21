@@ -34,8 +34,8 @@ def demo():
         Redirect the user/resource owner to the OAuth provider (i.e. Github)
         using an URL with a few key OAuth parameters.
         """
-        github = OAuth2Session(client_id, scope=scope)
-        authorization_url, state = github.authorization_url(authorization_base_url)
+        server = OAuth2Session(client_id, scope=scope)
+        authorization_url, state = server.authorization_url(authorization_base_url)
 
         # State is used to prevent CSRF, keep this for later.
         session['oauth_state'] = state
@@ -57,8 +57,8 @@ def demo():
     in the redirect URL. We will use that to obtain an access token.
     """
 
-    github = OAuth2Session(client_id, state=session['oauth_state'])
-    token = github.fetch_token(token_url, client_secret=client_secret,
+    server = OAuth2Session(client_id, state=session['oauth_state'])
+    token = server.fetch_token(token_url, client_secret=client_secret,
                                # authorization_response=request.url)
                                authorization_response = "fougeddaboudit?code=%s" % tok)
 
@@ -75,8 +75,8 @@ def profile():
     print ("PROFILE", request.args)
     """Fetching a protected resource using an OAuth 2 token.
     """
-    github = OAuth2Session(client_id, token=session['oauth_token'])
-    return jsonify(github.get('https://api.github.com/user').json())
+    server = OAuth2Session(client_id, token=session['oauth_token'])
+    return jsonify(server.get('https://api.github.com/user').json())
 
 
 if __name__ == "__main__":
