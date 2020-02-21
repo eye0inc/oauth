@@ -27,7 +27,7 @@ client_secret = "lAf7tSJRGs/40P9LzlSKcB[Ehamw:CW-"
 token_url = "https://login.microsoftonline.com/9d4269c8-8d4d-4daa-a6f7-8144064472be/oauth2/v2.0/token"
 authorization_base_url = "https://login.microsoftonline.com/9d4269c8-8d4d-4daa-a6f7-8144064472be/oauth2/v2.0/authorize"
 scope = ['openid', 'profile', 'email']
-testrest = "https://graph.microsoft.com/v1.0/me/mailboxSettings"
+testrest = "https://graph.microsoft.com/v1.0/me"
 
 @app.route("/")
 def demo():
