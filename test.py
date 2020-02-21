@@ -7,12 +7,17 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' #to test with http://localhost
 app = Flask(__name__)
 
 
-# This information is obtained upon registration of a new GitHub
-client_id = "0e76f7692426f08352c5"
-client_secret = "f0dc1020b31909ce186fe92f75d41f92119e716d"
-authorization_base_url = 'https://github.com/login/oauth/authorize'
-token_url = 'https://github.com/login/oauth/access_token'
+# #github
+# client_id = "0e76f7692426f08352c5"
+# client_secret = "f0dc1020b31909ce186fe92f75d41f92119e716d"
+# token_url = 'https://github.com/login/oauth/access_token'
+# authorization_base_url = 'https://github.com/login/oauth/authorize'
 
+#o365
+client_id = "2e31a2e7-490d-4712-9a1b-dd6a7a478708"
+client_secret = "Q2YRN@2Q/us?hN]wMireQZn9k0AHn-Sw"
+token_url = "https://login.microsoftonline.com/common/oauth2/v2.0/token"
+authorization_base_url = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
 
 @app.route("/")
 def demo():
@@ -21,7 +26,7 @@ def demo():
     Redirect the user/resource owner to the OAuth provider (i.e. Github)
     using an URL with a few key OAuth parameters.
     """
-    github = OAuth2Session(client_id)
+    github = OAuth2Session(client_id, scope=["A"])
     authorization_url, state = github.authorization_url(authorization_base_url)
 
     # State is used to prevent CSRF, keep this for later.
