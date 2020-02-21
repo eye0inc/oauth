@@ -12,6 +12,7 @@ app = Flask(__name__)
 # token_url = 'https://github.com/login/oauth/access_token'
 # authorization_base_url = 'https://github.com/login/oauth/authorize'
 # scope = []
+# testrest = 'https://api.github.com/user'
 
 # #o365 old
 # client_id = "2e31a2e7-490d-4712-9a1b-dd6a7a478708"
@@ -26,6 +27,7 @@ client_secret = "lAf7tSJRGs/40P9LzlSKcB[Ehamw:CW-"
 token_url = "https://login.microsoftonline.com/9d4269c8-8d4d-4daa-a6f7-8144064472be/oauth2/v2.0/token"
 authorization_base_url = "https://login.microsoftonline.com/9d4269c8-8d4d-4daa-a6f7-8144064472be/oauth2/v2.0/authorize"
 scope = ['openid', 'profile', 'email']
+testrest = "https://graph.microsoft.com/v1.0/me/mailboxSettings"
 
 @app.route("/")
 def demo():
@@ -76,7 +78,14 @@ def profile():
     """Fetching a protected resource using an OAuth 2 token.
     """
     server = OAuth2Session(client_id, token=session['oauth_token'])
-    return jsonify(server.get('https://api.github.com/user').json())
+    resp = server.get(testrest)
+    print ("PRO SERV:", server, resp.status_code, resp.headers, "\nCONTENT:\n", resp.content[:222])
+    try:
+        ret = jsonify(resp.json())
+    except:
+        print ("JSON FAIL", resp)
+        ret = resp.content
+    return ret
 
 
 if __name__ == "__main__":
