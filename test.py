@@ -14,7 +14,7 @@ token_url = 'https://github.com/login/oauth/access_token'
 authorization_base_url = 'https://github.com/login/oauth/authorize'
 scope = []
 
-# #o365
+# # #o365
 # client_id = "2e31a2e7-490d-4712-9a1b-dd6a7a478708"
 # client_secret = "Q2YRN@2Q/us?hN]wMireQZn9k0AHn-Sw"
 # token_url = "https://login.microsoftonline.com/common/oauth2/v2.0/token"
@@ -40,6 +40,7 @@ def demo():
 
 @app.route("/callback", methods=["GET"])
 def callback():
+    print ("CALLBACK")
     """ Step 3: Retrieving an access token.
 
     The user has been redirected back from the provider to your registered
@@ -49,7 +50,8 @@ def callback():
 
     github = OAuth2Session(client_id, state=session['oauth_state'])
     token = github.fetch_token(token_url, client_secret=client_secret,
-                               authorization_response=request.url)
+                               # authorization_response=request.url)
+                                authorization_response = "http://localhost:8080/callback")
 
     # At this point you can fetch protected resources but lets save
     # the token and show how this is done from a persisted token
@@ -61,6 +63,7 @@ def callback():
 
 @app.route("/profile", methods=["GET"])
 def profile():
+    print ("PROFILE")
     """Fetching a protected resource using an OAuth 2 token.
     """
     github = OAuth2Session(client_id, token=session['oauth_token'])
@@ -72,4 +75,4 @@ if __name__ == "__main__":
     os.environ['DEBUG'] = "1"
 
     app.secret_key = os.urandom(24)
-    app.run(debug=True)#, port=8080)
+    app.run(debug=True, port=8080)
