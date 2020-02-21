@@ -6,19 +6,26 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' #to test with http://localhost
 app = Flask(__name__)
 
 
-#github
-client_id = "0e76f7692426f08352c5"
-client_secret = "f0dc1020b31909ce186fe92f75d41f92119e716d"
-token_url = 'https://github.com/login/oauth/access_token'
-authorization_base_url = 'https://github.com/login/oauth/authorize'
-scope = []
+# # github
+# client_id = "0e76f7692426f08352c5"
+# client_secret = "f0dc1020b31909ce186fe92f75d41f92119e716d"
+# token_url = 'https://github.com/login/oauth/access_token'
+# authorization_base_url = 'https://github.com/login/oauth/authorize'
+# scope = []
 
-# # #o365
+# #o365 old
 # client_id = "2e31a2e7-490d-4712-9a1b-dd6a7a478708"
 # client_secret = "Q2YRN@2Q/us?hN]wMireQZn9k0AHn-Sw"
 # token_url = "https://login.microsoftonline.com/common/oauth2/v2.0/token"
 # authorization_base_url = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
 # scope = ['openid', 'profile', 'email']
+
+#o365 new
+client_id = "20d83134-4aa9-46fd-86a2-c52108d6ef6c"
+client_secret = "lAf7tSJRGs/40P9LzlSKcB[Ehamw:CW-"
+token_url = "https://login.microsoftonline.com/9d4269c8-8d4d-4daa-a6f7-8144064472be/oauth2/v2.0/token"
+authorization_base_url = "https://login.microsoftonline.com/9d4269c8-8d4d-4daa-a6f7-8144064472be/oauth2/v2.0/authorize"
+scope = ['openid', 'profile', 'email']
 
 @app.route("/")
 def demo():
@@ -65,7 +72,7 @@ def demo():
 
 @app.route("/profile", methods=["GET"])
 def profile():
-    print ("PROFILE")
+    print ("PROFILE", request.args)
     """Fetching a protected resource using an OAuth 2 token.
     """
     github = OAuth2Session(client_id, token=session['oauth_token'])
