@@ -24,8 +24,8 @@ app = Flask(__name__)
 #o365 new
 client_id = "20d83134-4aa9-46fd-86a2-c52108d6ef6c"
 client_secret = "lAf7tSJRGs/40P9LzlSKcB[Ehamw:CW-"
-token_url = "https://login.microsoftonline.com/9d4269c8-8d4d-4daa-a6f7-8144064472be/oauth2/v2.0/token"
-authorization_base_url = "https://login.microsoftonline.com/9d4269c8-8d4d-4daa-a6f7-8144064472be/oauth2/v2.0/authorize"
+token_url = "https://login.microsoftonline.com/common/oauth2/v2.0/token?prompt=consent"
+authorization_base_url = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
 scope = ['openid', 'profile', 'email']
 testrest = "https://graph.microsoft.com/v1.0/me"
 
@@ -61,8 +61,10 @@ def demo():
 
     server = OAuth2Session(client_id, state=session['oauth_state'])
     token = server.fetch_token(token_url, client_secret=client_secret,
-                               # authorization_response=request.url)
-                               authorization_response = "fougeddaboudit?code=%s" % tok)
+                               authorization_response=request.url)
+                               # authorization_response = "fougeddaboudit?code=%s" % tok)
+
+    print ("TOKEN:", token)
 
     # At this point you can fetch protected resources but lets save
     # the token and show how this is done from a persisted token
