@@ -22,8 +22,8 @@ app = Flask(__name__)
 # scope = ['openid', 'profile', 'email']
 
 #o365 new
-client_id = "20d83134-4aa9-46fd-86a2-c52108d6ef6c"
-client_secret = "lAf7tSJRGs/40P9LzlSKcB[Ehamw:CW-"
+client_id = "b801f885-800a-48a6-abea-9d4a0205f8be"
+client_secret = "u4h1@d?[_2IPdP2s]qQhfnYy=:agB9=["
 token_url = "https://login.microsoftonline.com/common/oauth2/v2.0/token?prompt=consent"
 authorization_base_url = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
 scope = ['openid', 'profile', 'email']
